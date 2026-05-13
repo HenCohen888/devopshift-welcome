@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building application...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+
+        stage('QA Approval') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Is the application running successfully?',
+                        parameters: [
+                            choice(
+                                name: 'Proceed',
+                                choices: 'Proceed\nAbort',
+                                description: 'Choose an option'
+                            )
+                        ]
+                    )
+
+                    if (userInput == 'Abort') {
+                        error 'Pipeline aborted by QA'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+            }
+        }
+    }
+}
