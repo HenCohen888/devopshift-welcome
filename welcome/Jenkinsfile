@@ -12,7 +12,22 @@ pipeline {
                 }
             }
         }
+          stage('Create SonarQube Project') {
+             steps {
+                  script {
+                     sonarCreateProject(env.JOB_NAME)
+               }
+          }
+        }
 
+        stage('SonarQube Scan') {
+             steps {
+                  script {
+                    sonarLocalScan()
+                }
+         }
+        }
+        
         stage('Deploy') {
             steps {
                 script {
