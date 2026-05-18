@@ -15,7 +15,7 @@ pipeline {
           stage('Create SonarQube Project') {
              steps {
                   script {
-                     sonarCreateProject(env.JOB_NAME)
+                     codeQuality.sonarCreateProject(env.JOB_NAME)
                }
           }
         }
@@ -23,11 +23,11 @@ pipeline {
         stage('SonarQube Scan') {
              steps {
                   script {
-                    sonarLocalScan()
+                    codeQuality.sonarLocalScan()
                 }
          }
         }
-        
+
         stage('Deploy') {
             steps {
                 script {
